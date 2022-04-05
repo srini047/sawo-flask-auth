@@ -1,0 +1,23 @@
+<div id="sawo-container" style="height: 300px; width: 300px"></div>
+<script src="https://websdk.sawolabs.com/sawo.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  const csrfToken = "{{ csrf_token}}";
+  var config = {
+    containerID: "sawo-container",
+    identifierType: "{{sawo.identifier}}",
+    apiKey: "60061273-af9b-4a32-bdc2-7a7a97a75d2b",
+    onSuccess: (payload) => {
+      axios({
+        method: "post",
+        url: "/{{sawo.to}}",
+        data: { payload },
+        headers: { "X-CSRFToken": csrfToken },
+      }).then((res) => {
+        location.reload();
+      });
+    },
+  };
+  var sawo = new Sawo(config);
+  sawo.showForm();
+</script>
